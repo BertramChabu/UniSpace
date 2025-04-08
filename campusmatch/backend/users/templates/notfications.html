@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <h2>Notifications</h2>
+    <ul class="list-group" id="notification-list"></ul>
+</div>
+<script>
+async function loadNotifications() {
+    const response = await fetch("/api/notifications/{{ request.user.id }}/");
+    const notifications = await response.json();
+    const notificationList = document.getElementById("notification-list");
+    notificationList.innerHTML = "";
+    notifications.forEach(notification => {
+        const li = document.createElement("li");
+        li.className = "list-group-item";
+        li.innerText = notification.message;
+        notificationList.appendChild(li);
+    });
+}
+
+setInterval(loadNotifications, 5000);
+</script>
+{% endblock %}

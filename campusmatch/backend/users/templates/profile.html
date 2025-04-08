@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <h2>Profile Settings</h2>
+    <form id="profile-form">
+        <div class="mb-3">
+            <label class="form-label">Username</label>
+            <input type="text" class="form-control" id="username" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Bio</label>
+            <textarea class="form-control" id="bio"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Update Profile</button>
+    </form>
+</div>
+<script>
+document.addEventListener("DOMContentLoaded", loadProfile);
+
+async function loadProfile() {
+    const response = await fetch("/api/update-profile/");
+    const data = await response.json();
+    document.getElementById("username").value = data.username;
+    document.getElementById("bio").value = data.bio;
+}
+
+document.getElementById("profile-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    await fetch("/api/update-profile/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            username: document.getElementById("username").value,
+            bio: document.getElementById("bio").value
+        })
+    });
+    alert("Profile updated!");
+});
+</script>
+{% endblock %}

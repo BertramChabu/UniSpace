@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <td>User Id</td>
+            <td>User name</td>
+            <td>User age</td>
+            <td>User bio</td>
+            <td>User email</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{userid}}</td>
+            <td>{{username}}</td>
+            <td>{{userage}}</td>
+            <td>{{userbio}}</td>
+            <td>{{useremail}}</td>
+
+        </tr>
+    </tbody>
+</table>
+
+
+{% endblock %}

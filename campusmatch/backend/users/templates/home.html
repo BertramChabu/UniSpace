@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="text-center">
+    <h2>Find Your Match</h2>
+    <div class="swipe-container">
+        <div class="card" id="user-card">
+            <img src="" alt="Profile" class="card-img-top" id="profile-img">
+            <div class="card-body">
+                <h5 class="card-title" id="profile-name"></h5>
+                <p class="card-text" id="profile-bio"></p>
+                <div class="d-flex justify-content-between">
+                    <button class="btn btn-danger" onclick="swipeUser(false)">❌</button>
+                    <button class="btn btn-success" onclick="swipeUser(true)">❤️</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+document.addEventListener("DOMContentLoaded", fetchUser);
+
+async function fetchUser() {
+    const response = await fetch("/api/swipe/");
+    const data = await response.json();
+    if (data) {
+        document.getElementById("profile-img").src = data.image;
+        document.getElementById("profile-name").innerText = data.name;
+        document.getElementById("profile-bio").innerText = data.bio;
+    }
+}
+
+async function swipeUser(like) {
+    const response = await fetch("/api/swipe/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ like: like })
+    });
+    const result = await response.json();
+    alert(result.message);
+    fetchUser();
+}
+</script>
+{% endblock %}

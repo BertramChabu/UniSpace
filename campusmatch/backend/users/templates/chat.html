@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <h2>Chat</h2>
+    <div class="chat-box border rounded p-3 mb-3" id="chat-box" style="height: 300px; overflow-y: scroll;">
+    </div>
+    <div class="input-group">
+        <input type="text" class="form-control" id="message-input" placeholder="Type a message">
+        <button class="btn btn-primary" onclick="sendMessage()">Send</button>
+    </div>
+</div>
+<script>
+const matchId = "{{ match_id }}";
+
+async function loadMessages() {
+    const response = await fetch(`/api/chat/${matchId}/`);
+    const messages = await response.json();
+    const chatBox = document.getElementById("chat-box");
+    chatBox.innerHTML = "";
+    messages.forEach(msg => {
+        const messageElement = document.createElement("p");
+        messageElement.innerText = `${msg.sender}: ${msg.text}`;
+        chatBox.appendChild(messageElement);
+    });
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+async function sendMessage() {
+    const messageInput = document.getElementById("message-input");
+    const messageText = messageInput.value;
+    if (!messageText) return;
+
+    await fetch("/api/send-message/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ match_id: matchId, text: messageText })
+    });
+
+    messageInput.value = "";
+    loadMessages();
+}
+
+setInterval(loadMessages, 2000);
+</script>
+{% endblock %}
