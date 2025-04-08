@@ -8,12 +8,12 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import User, Match, Message, Notification
-import 
+import
 
 config={
-    "apiKey": "AIzaSyAG2PkTRA-BSP1Re4Jvz-Nv9GqxEd4NkLE",
-    "authDomain": "campusmatch-a7033.firebaseapp.com",
-    "databaseURL": "https://console.firebase.google.com/project/campusmatch-a7033/database/campusmatch-a7033-default-rtdb/data/~2F",
+    "apiKey": "",
+    "authDomain": "",
+    "databaseURL": "",
     "projectId": "campusmatch-a7033",
     "storageBucket": "campusmatch-a7033.firebasestorage.app",
     "messagingSenderId": "777412564645",
